@@ -1,19 +1,41 @@
 {
   "name": "event-matchers",
-  "version": "0.0.1",
+  "version": "0.0.0",
   "description": "Composable functions for handling event callbacks in vanilla js",
-  "main": "index.js",
+  "author": "Cameron Hunter <hello@cameronhunter.co.uk>",
+  "license": "MIT",
+  "main": "build/index.js",
+  "jsnext:main": "src/index.js",
   "scripts": {
-    "test": "ava"
+    "build": "rollup -c",
+    "test": "ava --require babel-register",
+    "preversion": "npm run build && npm test",
+    "postversion": "git push && git push --tags"
   },
+  "files": [
+    "build",
+    "src"
+  ],
   "keywords": [
     "functional",
     "composable",
     "events",
     "callbacks",
     "vanilla",
-    "js"
+    "javascript"
   ],
-  "author": "Cameron Hunter <hello@cameronhunter.co.uk>",
-  "license": "MIT"
+  "devDependencies": {
+    "ava": "^0.12.0",
+    "babel-preset-es2015": "^6.5.0",
+    "babel-preset-es2015-rollup": "^1.1.1",
+    "babel-register": "^6.5.2",
+    "rollup": "^0.25.4",
+    "rollup-plugin-babel": "^2.4.0",
+    "rollup-plugin-uglify": "^0.2.0"
+  },
+  "babel": {
+    "presets": [
+      "es2015"
+    ]
+  }
 }
