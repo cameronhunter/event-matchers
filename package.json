@@ -1,0 +1,19 @@
+{
+  "name": "event-matchers",
+  "version": "0.0.1",
+  "description": "Composable functions for handling event callbacks in vanilla js",
+  "main": "index.js",
+  "scripts": {
+    "test": "ava"
+  },
+  "keywords": [
+    "functional",
+    "composable",
+    "events",
+    "callbacks",
+    "vanilla",
+    "js"
+  ],
+  "author": "Cameron Hunter <hello@cameronhunter.co.uk>",
+  "license": "MIT"
+}
