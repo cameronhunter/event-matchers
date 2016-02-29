@@ -1,7 +1,9 @@
 import test from 'ava';
-import delegate from '../src/delegate';
-import event from '../src/event';
+import conditional from '../src/conditional';
 import { all, any } from '../src/combinators';
+
+const AlwaysMatch = conditional(true);
+const NeverMatch = conditional(false);
 
 /**
  * all
@@ -10,28 +12,28 @@ import { all, any } from '../src/combinators';
 test('all – matches', t => {
   t.plan(1);
 
-  const EventMatcher = all(event(e => e.type === 'click'), delegate('.Test'));
+  const EventMatcher = all(AlwaysMatch, AlwaysMatch);
   const EventHandler = EventMatcher(() => t.pass());
 
-  EventHandler({ type: 'click', target: { closest() { return true; } } });
+  EventHandler();
 });
 
 test('all – partial match', t => {
   t.plan(0);
 
-  const EventMatcher = all(event(e => e.type === 'click'), delegate('.Test'));
+  const EventMatcher = all(AlwaysMatch, NeverMatch);
   const EventHandler = EventMatcher(() => t.fail());
 
-  EventHandler({ type: 'click', target: { closest() { return false; } } });
+  EventHandler();
 });
 
 test('all – does not match', t => {
   t.plan(0);
 
-  const EventMatcher = all(event(e => e.type === 'click'), delegate('.Test'));
+  const EventMatcher = all(NeverMatch, NeverMatch);
   const EventHandler = EventMatcher(() => t.fail());
 
-  EventHandler({ type: 'keydown', target: { closest() { return false; } } });
+  EventHandler();
 });
 
 /**
@@ -41,26 +43,26 @@ test('all – does not match', t => {
 test('any – matches', t => {
   t.plan(1);
 
-  const EventMatcher = any(event(e => e.type === 'click'), delegate('.Test'));
+  const EventMatcher = any(AlwaysMatch, AlwaysMatch);
   const EventHandler = EventMatcher(() => t.pass());
 
-  EventHandler({ type: 'click', target: { closest() { return true; } } });
+  EventHandler();
 });
 
 test('any – partial match', t => {
   t.plan(1);
 
-  const EventMatcher = any(event(e => e.type === 'click'), delegate('.Test'));
+  const EventMatcher = any(AlwaysMatch, NeverMatch);
   const EventHandler = EventMatcher(() => t.pass());
 
-  EventHandler({ type: 'click', target: { closest() { return false; } } });
+  EventHandler();
 });
 
 test('any – does not match', t => {
   t.plan(0);
 
-  const EventMatcher = any(event(e => e.type === 'click'), delegate('.Test'));
+  const EventMatcher = any(NeverMatch, NeverMatch);
   const EventHandler = EventMatcher(() => t.fail());
 
-  EventHandler({ type: 'keydown', target: { closest() { return false; } } });
+  EventHandler();
 });
